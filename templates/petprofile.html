@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} {{pet.name}} {% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="card" style="width: 30rem;">
+            {% if pet.photo_url %}
+            <img src="{{pet.photo_url}}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ pet.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    {% if pet.available %}
+                    is available
+                    {% else %}
+                    not available
+                    {% endif %}
+                </h6>
+                <p class="card-text">{{ pet.notes }}</p>
+            </div>
+        </div>
+        <div class="card" style="width: 30rem;">
+            <div class="card-body">
+                <h5 class="card-title">Edit {{ pet.name }}</h5>
+                <form id="edit-pet-form" method="POST">
+                    {{ form.hidden_tag() }}
+
+                    {% for field in form
+                    if field.widget.input_type != 'hidden' %}
+
+                    <p>
+                        {{ field.label }}
+                        {{ field }}
+
+                        {% for error in field.errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </p>
+
+                    {% endfor %}
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
